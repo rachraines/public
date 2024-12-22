@@ -1,0 +1,2 @@
+# public
+Static Site Generator
