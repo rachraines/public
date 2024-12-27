@@ -16,7 +16,7 @@ class TextNode:
         self.text_type = text_type
         self.url = url
 
-    # checks if two texxt nodes have the exact same properties
+    # checks if two text nodes have the exact same properties
     def __eq__(self, other):
         if not isinstance(other, TextNode):
             return False
