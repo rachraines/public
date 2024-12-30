@@ -13,7 +13,6 @@ class TestLeafNode(unittest.TestCase):
 
     # tests LeafNode instance with default values
     def test_initialization_defaults(self):
-        node = LeafNode()
         with self.assertRaises(ValueError):
             LeafNode()
 

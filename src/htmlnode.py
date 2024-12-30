@@ -11,8 +11,11 @@ class HTMLNode:
     
     # Converts props dictionary to a string
     def props_to_html(self):
+        # handles None or empty props
+        if not self.props:
+            return ""
         # convert props dictionary to a string with = and no commas.
-        props_as_string = " ".join(f"{key}= {value}" for key, value in self.props.items())
+        props_as_string = " ".join(f"{key}='{value}'" for key, value in self.props.items())
         return props_as_string
     
     # Prints HTMLNode instance for debugging purposes.
