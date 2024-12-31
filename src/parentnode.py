@@ -6,7 +6,7 @@ class ParentNode(HTMLNode):
     def __init__(self, tag=None, children=None, props=None):
         
         # Children and tag cannot be none
-        if children is None:
+        if children is None or children == []:
             raise ValueError("A ParentNode must have children")
         if tag is None:
             raise ValueError("A ParentNode must have a tag")
@@ -19,7 +19,7 @@ class ParentNode(HTMLNode):
         if self.tag is None:
             raise ValueError("A ParentNode must have a tag")
         # Children cannot be none
-        if self.children is None:
+        if self.children is None or self.children == []:
             raise ValueError("A ParentNode must have children")
         
         # Generate HTML for each child recursively
