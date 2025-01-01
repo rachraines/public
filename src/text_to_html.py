@@ -14,8 +14,14 @@ def text_node_to_html(text_node):
     elif text_node.text_type == TextType.CODE:
         return LeafNode(tag="code", value=text_node.text)
     elif text_node.text_type == TextType.LINK:
-        return LeafNode(tag="a", value=text_node.text, props={"href": text_node.url})
+        if text_node.url == None:
+            raise ValueError("TextNode must have a URL")
+        else:
+            return LeafNode(tag="a", value=text_node.text, props={"href": text_node.url})
     elif text_node.text_type == TextType.IMAGE:
-        return LeafNode(tag="img", value="", props={"src": text_node.url, "alt": text_node.text or "alt text"})
+        if text_node.url == None:
+            raise ValueError("TextNode must have a URL")
+        else:
+            return LeafNode(tag="img", value="", props={"src": text_node.url, "alt": text_node.text or "alt text"})
     else:
         raise NotImplementedError(f"HTML conversion for {text_node.text_type} is not implented.")
