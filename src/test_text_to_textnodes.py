@@ -22,7 +22,64 @@ class Test_Text_To_TextNodes(unittest.TestCase):
         self.assertEqual(output_nodes, expected_nodes)
         
     def test_empty_string(self):
-        text= ""
+        text = ""
         output_nodes = text_to_textnodes(text)
         expected_nodes = []
         self.assertEqual(output_nodes, expected_nodes)
+
+    def test_basic_text(self):
+        text = "This is plain text."
+        output_nodes = text_to_textnodes(text)
+        expected_nodes = [TextNode("This is plain text.", TextType.TEXT)]
+        self.assertEqual(output_nodes, expected_nodes)
+
+    def test_bold_text(self):
+        text = "This is **bold** text."
+        output_nodes = text_to_textnodes(text)
+        expected_nodes = [
+            TextNode("This is ", TextType.TEXT),
+            TextNode("bold", TextType.BOLD),
+            TextNode(" text.", TextType.TEXT),
+        ]
+        self.assertEqual(output_nodes, expected_nodes)
+
+    def test_italic_text(self):
+        text = "This is *italic* text."
+        output_nodes = text_to_textnodes(text)
+        expected_nodes = [
+            TextNode("This is ", TextType.TEXT),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" text.", TextType.TEXT),
+        ]
+        self.assertEqual(output_nodes, expected_nodes)
+
+    def test_code_text(self):
+        text = "This is `code` text."
+        output_nodes = text_to_textnodes(text)
+        expected_nodes = [
+            TextNode("This is ", TextType.TEXT),
+            TextNode("code", TextType.CODE),
+            TextNode(" text.", TextType.TEXT),
+        ]
+        self.assertEqual(output_nodes, expected_nodes)
+
+    def test_text_with_images(self):
+        text = "This is an ![image](https://example.com/image.jpg)."
+        output_nodes = text_to_textnodes(text)
+        expected_nodes = [
+            TextNode("This is an ", TextType.TEXT),
+            TextNode("image", TextType.IMAGE, "https://example.com/image.jpg"),
+            TextNode(".", TextType.TEXT),
+        ]
+        self.assertEqual(output_nodes, expected_nodes)
+
+    def test_text_with_links(self):
+        text = "Visit [this site](https://example.com)."
+        output_nodes = text_to_textnodes(text)
+        expected_nodes = [
+            TextNode("Visit ", TextType.TEXT),
+            TextNode("this site", TextType.LINK, "https://example.com"),
+            TextNode(".", TextType.TEXT),
+        ]
+        self.assertEqual(output_nodes, expected_nodes)
+
