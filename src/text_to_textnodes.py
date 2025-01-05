@@ -13,13 +13,18 @@ def text_to_textnodes(text):
     nodes = split_nodes_links(nodes)
 
     # process bold, italic, and code
-    new_nodes = []
-    for node in nodes:
-        if node.text_type == TextType.TEXT:
-            node = split_nodes_delimiter(node, "**", TextType.BOLD)
-            node = split_nodes_delimiter(node, "*", TextType.ITALIC)
-            node = split_nodes_delimiter(node, "`", TextType.CODE)
-        new_nodes.append(node)
+    for delimiter, text_type in [
+        ("**", TextType.BOLD),
+        ("*", TextType.ITALIC),
+        ("`", TextType.CODE)
+    ]:
+        new_nodes = []
+        for node in nodes:
+            if node.text_type == TextType.TEXT:
+                new_nodes.extend(split_nodes_delimiter([node], delimiter, text_type))
+            else:
+                new_nodes.append(node)
+        nodes = new_nodes
 
-    return new_nodes
+    return nodes
 
