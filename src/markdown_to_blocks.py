@@ -19,7 +19,7 @@ def markdown_to_blocks(markdown):
 
 def block_to_block_type(block):
     lines = block.splitlines()
-    if block.startswith("#"):
+    if re.match(r"^#{1,6} .+", block):
         return "heading"
     elif block.startswith("```") and block.endswith("```"):
         return "code"
@@ -27,10 +27,15 @@ def block_to_block_type(block):
         return "quote"
     elif all(line.startswith(("* ", "- ")) for line in lines):
         return "unordered_list"
-    start_number = 0
+    start_number = 1
     for line in lines:
-        start_number += 1
-        if line.startswith(f"{start_number}. "):
-            return "ordered_list"
+        match = re.match(r"^(\d+)\. ", line)
+        if match:
+            number = int(match.group(1))
+            if number != start_number:
+                return "paragraph"
+            start_number += 1
+        else: 
+            return "paragraph"
         
-    return "paragraph"
+    return "ordered_list"
