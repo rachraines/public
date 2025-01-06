@@ -64,4 +64,17 @@ This is the second paragraph."""
             "This is a paragraph with leading and trailing spaces."
         ]
         self.assertEqual(blocks, expected_blocks)
+
+    def test_single_list_block(self):
+        text = """* Item 1
+        * Item 2
+        * Item 3"""
+        blocks = markdown_to_blocks(text)
+        expected_blocks = [
+                "* Item 1\n* Item 2\n* Item 3"
+            ]
+        self.assertEqual(blocks, expected_blocks)
+
+        
+
     
