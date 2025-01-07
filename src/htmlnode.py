@@ -8,11 +8,12 @@ class HTMLNode:
     def __eq__(self, other):
         if not isinstance(other, HTMLNode):
             return False
+        props_equal = (self.props is None and other.props is None) or (self.props == other.props)
         return (
             self.tag == other.tag and
             self.value == other.value and
             self.children == other.children and
-            self.props == other.props
+            props_equal
         )
     
     # Will be overridden by child classes that render themselves as HTML

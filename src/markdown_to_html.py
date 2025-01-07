@@ -13,8 +13,9 @@ def markdown_to_html(markdown):
         html_node = None
         
         if block_type == "code":
-            code_node = HTMLNode(tag="code", children=[HTMLNode(tag=None, value=block)])
-            html_node = HTMLNode(tag="pre", children=[code_node])
+            block_content = block.strip("`").strip()
+            code_node = HTMLNode(tag="code", children=[HTMLNode(tag=None, value=block_content)])
+            html_node = HTMLNode(tag="pre", children=[code_node], props=None)
 
         elif block_type == "ordered_list":
             items = block.splitlines()
@@ -27,7 +28,7 @@ def markdown_to_html(markdown):
                     text = match.group(2)  # This captures the item content (e.g., "First item")
 
                     # Create an li node with the item content as value
-                    li_node = HTMLNode(tag="li", children=[HTMLNode(tag=None, value=text)])
+                    li_node = HTMLNode(tag="li", children=[HTMLNode(tag=None, value=text)], props=None)
                     list_children.append(li_node)
             
             html_node = HTMLNode(tag="ol", children=list_children)
@@ -38,19 +39,19 @@ def markdown_to_html(markdown):
                 num_hashes = len(match.group(1)) # finds number of # chars
                 tag = f"h{num_hashes}" # creates appropriate header tag
                 content = match.group(2).strip()
-                html_node = HTMLNode(tag=tag, children=text_to_children(content))
+                html_node = HTMLNode(tag=tag, children=text_to_children(content), props=None)
         
         elif block_type == "paragraph":
-            html_node = HTMLNode(tag="p", children=text_to_children(block))
+            html_node = HTMLNode(tag="p", children=text_to_children(block), props=None)
         
         elif block_type == "quote":
             content = block.lstrip("> ").strip()
-            html_node = HTMLNode(tag="blockquote", children=text_to_children(content))
+            html_node = HTMLNode(tag="blockquote", children=text_to_children(content), props=None)
         
         elif block_type == "unordered_list":
             items = block.splitlines()
             list_children = [HTMLNode(tag="li", children=text_to_children(item.strip())) for item in items]
-            html_node = HTMLNode(tag="ul", children=list_children)
+            html_node = HTMLNode(tag="ul", children=list_children, props=None)
         
         else:
             continue # skip unknown block types
@@ -58,7 +59,7 @@ def markdown_to_html(markdown):
         if html_node:
             children.append(html_node)
     
-    return HTMLNode(tag="div", children=children)
+    return HTMLNode(tag="div", children=children, props=None)
 
 def text_to_children(text):
     text_nodes = text_to_textnodes(text)
