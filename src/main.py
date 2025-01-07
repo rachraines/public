@@ -1,5 +1,6 @@
 import os
 import shutil
+from generate_page import generate_page
 
 def copy_directory_contents(src, dest):
     # Step 1: Ensure destination directory is empty
@@ -24,10 +25,22 @@ def copy_directory_contents(src, dest):
             shutil.copy(s, d)
             print(f"Copied file: {s} to {d}")
 
+
 def main():
+    # Delete and copy contents from static to public
     src = 'static'  # Source directory
     dest = 'public'  # Destination directory
     copy_directory_contents(src, dest)
+
+    # Use the generate_page function to create the HTML page
+    markdown_path = 'content/index.md'
+    template_path = 'template.html'
+    html_output_path = 'public/index.html'
+    html_node = generate_page(markdown_path, template_path, html_output_path)
+    print(f"Generated node: {html_node}")
+    print(f"Node type: {type(html_node)}")
+
+
 
 if __name__ == "__main__":
     main()
