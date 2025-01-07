@@ -2,7 +2,7 @@ class HTMLNode:
     def __init__(self, tag=None, value=None, children=None, props=None):
         self.tag = tag
         self.value = value
-        self.children = children
+        self.children = children if children is not None else []
         self.props = props
 
     def __eq__(self, other):
@@ -30,6 +30,9 @@ class HTMLNode:
     
     # Prints HTMLNode instance for debugging purposes.
     def __repr__(self):
-        children_repr = ", ".join(self.children)
-        props_repr = " ".join(f"{key}:{value}" for key, value in self.props.items())
+        children_repr = ", ".join(str(child) for child in self.children) if self.children else ""
+        if self.props:
+            props_repr = " ".join(f"{key}:{value}" for key, value in self.props.items()) if self.props else ""
+        else:
+            props_repr = ""
         return (f"HTMLNode(tag={self.tag}, value={self.value}, children=[{children_repr}], props={{ {props_repr}}})")

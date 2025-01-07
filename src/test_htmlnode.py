@@ -16,7 +16,7 @@ class TestHTMLNode(unittest.TestCase):
         node = HTMLNode()
         self.assertIsNone(node.tag)
         self.assertIsNone(node.value)
-        self.assertIsNone(node.children)
+        self.assertEqual(node.children, [])
         self.assertIsNone(node.props)
 
     # tests props_to_html method

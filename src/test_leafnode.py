@@ -9,7 +9,7 @@ class TestLeafNode(unittest.TestCase):
         self.assertEqual(node.tag, "p")
         self.assertEqual(node.value, "paragraph text")
         self.assertEqual(node.props, {"href": "https://google.com"})
-        self.assertIsNone(node.children)
+        self.assertEqual(node.children, [])
 
     # tests LeafNode instance with default values
     def test_initialization_defaults(self):

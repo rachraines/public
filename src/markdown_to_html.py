@@ -18,11 +18,22 @@ def markdown_to_html(markdown):
 
         elif block_type == "ordered_list":
             items = block.splitlines()
-            list_children = [HTMLNode(tag="li", children=text_to_children(item.strip())) for item in items]
+            list_children = []
+
+            for item in items:
+                match = re.match(r"^(\d+)\.\s*(.*)", item.strip())
+                if match:
+                    number = match.group(1)  # This captures the number (e.g., "1", "2")
+                    text = match.group(2)  # This captures the item content (e.g., "First item")
+
+                    # Create an li node with the item content as value
+                    li_node = HTMLNode(tag="li", children=[HTMLNode(tag=None, value=text)])
+                    list_children.append(li_node)
+            
             html_node = HTMLNode(tag="ol", children=list_children)
         
         elif block_type == "heading":
-            match = re.match(r"^(#{1,6} (.+)", block)
+            match = re.match(r"^(#{1,6})\s*(.+)", block)
             if match:
                 num_hashes = len(match.group(1)) # finds number of # chars
                 tag = f"h{num_hashes}" # creates appropriate header tag
