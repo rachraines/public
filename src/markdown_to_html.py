@@ -50,7 +50,7 @@ def markdown_to_html(markdown):
         
         elif block_type == "unordered_list":
             items = block.splitlines()
-            list_children = [HTMLNode(tag="li", children=text_to_children(item.strip())) for item in items]
+            list_children = [HTMLNode(tag="li", children=text_to_children(item.strip().lstrip("-*").strip())) for item in items]
             html_node = HTMLNode(tag="ul", children=list_children, props=None)
         
         else:

@@ -84,3 +84,37 @@ class Markdown_to_HTML(unittest.TestCase):
 
         result = compare_html_nodes(html_node, expected)
         self.assertTrue(result)
+
+    def test_empty_input(self):
+        markdown = ""
+        html_node = markdown_to_html(markdown)
+        expected = HTMLNode(tag="div", children=[])
+        self.assertEqual(html_node, expected)
+
+    def test_unordered_list(self):
+        markdown = """- First item
+    - Second item"""
+        html_node = markdown_to_html(markdown)
+        expected = HTMLNode(tag="div", children=[
+            HTMLNode(tag="ul", children=[
+                HTMLNode(tag="li", children=[HTMLNode(tag=None, value="First item")]),
+                HTMLNode(tag="li", children=[HTMLNode(tag=None, value="Second item")])
+            ])
+        ])
+        self.assertEqual(html_node, expected)
+
+    def test_multiple_paragraphs(self):
+        markdown = """This is the first paragraph.
+
+    This is the second paragraph."""
+        
+        html_node = markdown_to_html(markdown)
+        
+        expected = HTMLNode(tag="div", children=[
+            HTMLNode(tag="p", children=[HTMLNode(tag=None, value="This is the first paragraph.")], props=None),
+            HTMLNode(tag="p", children=[HTMLNode(tag=None, value="This is the second paragraph.")], props=None)
+        ], props=None)
+        
+        self.assertEqual(html_node, expected)
+
+
