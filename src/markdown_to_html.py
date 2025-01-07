@@ -13,7 +13,8 @@ def markdown_to_html(markdown):
         html_node = None
         
         if block_type == "code":
-            html_node = HTMLNode(tag="code", children=[HTMLNode(tag=None, value=block)])
+            code_node = HTMLNode(tag="code", children=[HTMLNode(tag=None, value=block)])
+            html_node = HTMLNode(tag="pre", children=[code_node])
 
         elif block_type == "ordered_list":
             items = block.splitlines()
