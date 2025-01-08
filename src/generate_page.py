@@ -53,7 +53,7 @@ def generate_page(from_path, template_path, dest_path):
     
     print(f"Page successfully generated and saved to {dest_path}")
 
-def generate_page_recursive(dir_path_content, template_path, set_dir_path):
+def generate_page_recursive(dir_path_content, template_path, dest_dir_path):
     # Convert paths to Path objects and resolve absolute paths
     dir_path_content = Path(dir_path_content).resolve()
     dest_dir_path = Path(dest_dir_path).resolve()

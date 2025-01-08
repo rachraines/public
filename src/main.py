@@ -1,6 +1,6 @@
 import os
 import shutil
-from generate_page import generate_page
+from generate_page import generate_page_recursive
 
 def copy_directory_contents(src, dest):
     # Step 1: Ensure destination directory is empty
@@ -32,13 +32,12 @@ def main():
     dest = 'public'  # Destination directory
     copy_directory_contents(src, dest)
 
-    # Use the generate_page function to create the HTML page
-    markdown_path = 'content/index.md'
+    # Use the generate_page_recursive function to create the HTML page
+    directory_content_path = 'content'
     template_path = 'template.html'
-    html_output_path = 'public/index.html'
-    html_node = generate_page(markdown_path, template_path, html_output_path)
-    print(f"Generated node: {html_node}")
-    print(f"Node type: {type(html_node)}")
+    dest_dir_path = 'public'
+    generate_page_recursive(directory_content_path, template_path, dest_dir_path)
+    print("All pages have been generated successfully.")
 
 
 
