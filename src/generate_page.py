@@ -2,6 +2,7 @@ import os
 from markdown_to_html import markdown_to_html, LeafNode, ParentNode
 from extract_title import extract_title
 from htmlnode import HTMLNode
+from pathlib import Path
 
 def generate_page(from_path, template_path, dest_path):
     # Step 1: Print the message
@@ -52,3 +53,35 @@ def generate_page(from_path, template_path, dest_path):
     
     print(f"Page successfully generated and saved to {dest_path}")
 
+def generate_page_recursive(dir_path_content, template_path, set_dir_path):
+    # Convert paths to Path objects and resolve absolute paths
+    dir_path_content = Path(dir_path_content).resolve()
+    dest_dir_path = Path(dest_dir_path).resolve()
+
+    # Create the destination directory if it doesn't exist
+    dest_dir_path.mkdir(parents=True, exist_ok=True)
+
+    # Traverse the content directory recursively
+    for root, dirs, files in os.walk(dir_path_content):
+        # Compute the relative path from the content directory to the current root
+        rel_path = Path(root).relative_to(dir_path_content)
+        # Define the corresponding destination directory in the public directory
+        dest_path = dest_dir_path / rel_path
+
+        # Ensure the destination directory exists
+        dest_path.mkdir(parents=True, exist_ok=True)
+
+        for file in files:
+            # Process only markdown files
+            if file.endswith(".md"):
+                # Determine input markdown path and output HTML path
+                markdown_file_path = Path(root) / file
+                html_file_name = markdown_file_path.stem + ".html"  # Replace .md with .html
+                html_output_path = dest_path / html_file_name
+
+                # Generate HTML file using the template
+                print(f"Generating: {markdown_file_path} -> {html_output_path}")
+                generate_page(markdown_file_path, template_path, html_output_path)
+            else:
+                # Log skipped non-markdown files
+                print(f"Skipping non-markdown file: {Path(root) / file}")
